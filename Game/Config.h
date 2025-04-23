@@ -7,24 +7,27 @@ using json = nlohmann::json;
 
 class Config
 {
-  public:
+public:
     Config()
     {
         reload();
     }
 
+    // Открывает файл настроек для чтения из него параметров
     void reload()
     {
+        // Поток для чтения данных из settings.json
         std::ifstream fin(project_path + "settings.json");
-        fin >> config;
-        fin.close();
+        fin >> config; // Читаем из потока в config
+        fin.close(); // Закрываем поток
     }
 
-    auto operator()(const string &setting_dir, const string &setting_name) const
+    // Возвращает значение настройки (например conf('WindowSize', 'Width'))
+    auto operator()(const string& setting_dir, const string& setting_name) const
     {
         return config[setting_dir][setting_name];
     }
 
-  private:
+private:
     json config;
 };
